@@ -118,7 +118,7 @@ std::tuple<std::string, std::string, int> simulate_trace(std::vector<std::string
             ///////////////////////////////////////////////////////////////////////////////////////////
             //With the child's trace, run the child (HINT: think recursion)
             if(!child_trace.empty()) {
-                // remove child process from wait queue
+                // remove child process from wait queue 
                 for (auto it = wait_queue.begin(); it != wait_queue.end(); ++it) {
                     if (it->PID == child.PID) { 
                         wait_queue.erase(it);      
