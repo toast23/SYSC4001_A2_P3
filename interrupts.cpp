@@ -58,13 +58,12 @@ std::tuple<std::string, std::string, int> simulate_trace(std::vector<std::string
 
             ///////////////////////////////////////////////////////////////////////////////////////////
             //Add your FORK output here
-            execution += std::to_string(current_time) + ", 4, copy parent PCB to child PCB\n";
-            current_time += 4;       
-            
-            execution += std::to_string(current_time) + ", 1, assign new PID and address space to child\n";
-            current_time += 1;      
+            execution += std::to_string(current_time) + ", " + std::to_string(duration_intr) + ", cloning the PCB\n"; // duration taken from the trace
+            current_time += duration_intr;
 
-            execution += std::to_string(current_time) + ", 1, scheduler called\n";
+            execution += std::to_string(current_time) + ", 0, scheduler called\n";
+
+            execution +=  std::to_string(current_time) + ", 1, IRET\n";
             current_time += 1;
             ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -127,9 +126,14 @@ std::tuple<std::string, std::string, int> simulate_trace(std::vector<std::string
 
             ///////////////////////////////////////////////////////////////////////////////////////////
             //Add your EXEC output here
+            execution += std::to_string(current_time) + ", 2, update PCB info\n";
+            current_time += 4;      
 
+            execution += std::to_string(current_time) + ", 1, scheduler called\n";
+            current_time += 1;
 
-
+            execution +=  std::to_string(current_time) + ", 1, IRET\n";
+            current_time += 1;
             ///////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -143,9 +147,19 @@ std::tuple<std::string, std::string, int> simulate_trace(std::vector<std::string
 
             ///////////////////////////////////////////////////////////////////////////////////////////
             //With the exec's trace (i.e. trace of external program), run the exec (HINT: think recursion)
-
-
-
+            if(!exec_traces.empty()) {
+                auto [exec_execution, exec_status, new_time] = simulate_trace(
+                                                        exec_traces,
+                                                        current_time,
+                                                        vectors,
+                                                        delays,
+                                                        external_files,
+                                                        current,
+                                                        wait_queue);
+                execution += exec_execution;
+                current_time = new_time;
+                system_status += exec_status;
+            }
             ///////////////////////////////////////////////////////////////////////////////////////////
 
             break; //Why is this important? (answer in report)
