@@ -69,7 +69,12 @@ std::tuple<std::string, std::string, int> simulate_trace(std::vector<std::string
 
             // malloc child process
             if(!allocate_memory(&child)) {
-                std::cerr << "ERROR! Memory allocation failed!" << std::endl;
+                std::cerr << "fork ERROR! Memory allocation failed!" << std::endl;
+                execution += "*****fork ERROR! Memory allocation failed!*****\n";
+                system_status += "*****fork ERROR! Memory allocation failed!*****\n";
+                write_output(execution, "execution.txt");
+                write_output(system_status, "system_status.txt");
+                exit(1);
             }
 
             // push parent to back of wait queue
@@ -174,7 +179,12 @@ std::tuple<std::string, std::string, int> simulate_trace(std::vector<std::string
 
             // malloc 
             if(!allocate_memory(&current)) {
-                std::cerr << "ERROR! Memory allocation failed!" << std::endl;
+                std::cerr << "exec ERROR! Memory allocation failed!" << std::endl;
+                execution += "*****exec ERROR! Memory allocation failed!*****\n";
+                system_status += "*****exec ERROR! Memory allocation failed!*****\n";
+                write_output(execution, "execution.txt");
+                write_output(system_status, "system_status.txt");
+                exit(1);
             }
 
             // calculate load time

@@ -3,5 +3,4 @@ FORK, 10
 FORK, 10
 FORK, 10
 FORK, 10
-EXEC program1, 10
-EXEC program2, 15
+

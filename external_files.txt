@@ -1,2 +1,5 @@
 program1, 10
 program2, 15
+program3, 20
+program4, 15
+program5, 15
